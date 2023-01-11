@@ -38,12 +38,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Vehicle::class)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Vehicle::class)]
     private Collection $vehicles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rent::class)]
     private Collection $rents;
 
+   
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -168,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->vehicles->contains($vehicle)) {
             $this->vehicles->add($vehicle);
-            $vehicle->setUser($this);
+            $vehicle->setOwner($this);
         }
 
         return $this;
@@ -178,8 +179,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->vehicles->removeElement($vehicle)) {
             // set the owning side to null (unless already changed)
-            if ($vehicle->getUser() === $this) {
-                $vehicle->setUser(null);
+            if ($vehicle->getOwner() === $this) {
+                $vehicle->setOwner(null);
             }
         }
 
@@ -215,4 +216,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    
 }

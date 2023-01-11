@@ -40,6 +40,10 @@ class Rent
     #[ORM\ManyToOne(inversedBy: 'rents')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rents')]
+    private ?Vehicle $vehicle = null;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -149,6 +153,18 @@ class Rent
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getVehicle(): ?Vehicle
+    {
+        return $this->vehicle;
+    }
+
+    public function setVehicle(?Vehicle $vehicle): self
+    {
+        $this->vehicle = $vehicle;
 
         return $this;
     }
