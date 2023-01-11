@@ -37,6 +37,9 @@ class Rent
     #[ORM\Column(length: 255)]
     private ?string $arrival_picture = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rents')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class Rent
     public function setArrivalPicture(string $arrival_picture): self
     {
         $this->arrival_picture = $arrival_picture;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
